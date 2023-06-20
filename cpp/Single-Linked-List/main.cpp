@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
 class Node
@@ -149,6 +148,25 @@ public:
         }
         prevouis->next = nullptr;
         free(currentNode);
+    }
+       void reverse() {
+        Node * current = head , *previous = nullptr , * temp = nullptr;
+        if(head == nullptr || head->next == nullptr)
+        {
+            return;
+        }
+        while (current != nullptr){
+            if(current->next == nullptr)
+            {
+                head = current;
+                current->next = previous;
+                break;
+            }
+            temp = current->next;
+            current->next = previous;
+            previous = current;
+            current = temp;
+        }
     }
        ~LinkedList()
     {

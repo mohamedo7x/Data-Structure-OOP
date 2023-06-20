@@ -26,6 +26,7 @@ This repository contains a simple and efficient implementation of a Linked List 
 - Dropping the first or last element of the list.
 - Inserting an element at the beginning of the list.
 - Printing the elements of the list.
+- Reverse the elements of the list.
 - Coming Soon 🐱‍🏍
 ## Installation
 
@@ -77,6 +78,9 @@ int main()
 
     // Print the elements of the list
     list.print();
+
+     // reverse the elements of the list
+    list.reverse();
 
 ```
 ## Contributing
