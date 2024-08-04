@@ -38,8 +38,8 @@ public class Inventory {
             String topWood = searchGuitar.getTopWood();
             if (topWood != null && !topWood.equals("") && !topWood.equals(guitar.getTopWood()))
                 continue;
-            return guitar; // found a match
+            return guitar; 
         }
-        return null; // no match found
+        return null; 
     }
 }
