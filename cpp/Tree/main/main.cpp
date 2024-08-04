@@ -48,6 +48,14 @@ class BinaryTree final {
             int right_ = count_all_node(cur->right);
             return left_+right_;
     }
+    bool search (Node * cur , int value) {
+        if(!cur)return false;
+        if(cur->data == value) return true;
+        bool a=  search(cur->left , value);
+
+        bool b= search(cur->right , value);
+        return a || b;
+    }
     public: // ------------------------------------->>>>>>> PUBLIC <<<<<<-----------------------------------
     void print_in_order () {
         this->print_in_oreder(this->root);
@@ -113,6 +121,9 @@ class BinaryTree final {
     int count_all_node () {
         return this->count_all_node(this->root);
     }
+    bool search (int data) {
+        return this->search(this->root ,data );
+    }
     
 };
 int main(){
@@ -124,6 +135,6 @@ int main(){
     tree.bulid_fast_tree();
     tree.print_post_order();
 
-    cout << "print " << tree.count_all_node();
+    cout << "print " << tree.search(3);
     cout << "\n\n!! NO RTE !!\n\n";
 }
