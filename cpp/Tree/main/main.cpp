@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <math.h>
 using namespace std;
 template <typename T>
 class BinaryTree final {
@@ -55,6 +56,28 @@ class BinaryTree final {
 
         bool b= search(cur->right , value);
         return a || b;
+    }
+    int count_leaf_node (Node * cur) {
+        if(!cur->left& !cur->right ){
+            return 1;
+        }
+        int left = count_leaf_node(cur->left);
+        int right = count_leaf_node(cur->right);
+        return left+right;
+    } 
+    bool is_prefect (int highet, Node * cur){
+        if(highet == -1){
+            highet = this->tree_height(this->root);
+        }
+        if(!cur->left && !cur->right){
+            return 0;
+        }
+        if(!cur->left && cur->right || !cur->right && cur->left){
+            return false;
+        }
+        bool left = is_prefect(highet , cur->left);
+        bool right = is_prefect(highet, cur->left);
+        return left && right;
     }
     public: // ------------------------------------->>>>>>> PUBLIC <<<<<<-----------------------------------
     void print_in_order () {
@@ -124,8 +147,20 @@ class BinaryTree final {
     bool search (int data) {
         return this->search(this->root ,data );
     }
-    
+    int count_leaf_node () {
+        return this->count_leaf_node(this->root);
+    }
+     bool is_perfect_formula () {
+        int h = this->tree_height(this->root);
+        int n = this->count_all_node(this->root);
+        return pow(2, h+1)-1 == n;
+    } 
+    bool is_prefect () {
+        return this->is_prefect((int)this->tree_height(this->root),this->root);
+    }
+
 };
+
 int main(){
     BinaryTree tree(1); // Root
     // tree.add({2,4,7},{'L','L','L'});
@@ -135,6 +170,6 @@ int main(){
     tree.bulid_fast_tree();
     tree.print_post_order();
 
-    cout << "print " << tree.search(3);
+    cout << "print " << tree.is_prefect();
     cout << "\n\n!! NO RTE !!\n\n";
 }
