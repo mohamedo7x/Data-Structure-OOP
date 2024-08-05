@@ -1,19 +1,19 @@
 #include <iostream>
 #include <vector>
 #include <assert.h>
+#include <algorithm>
+#include <bits/stdc++.h>
 
 using namespace std;
+template<typename T>
 class BinaryTree {
 
     private:
-    int data;
+    T data;
     BinaryTree * left {};
     BinaryTree * right {};
     public:
-    BinaryTree(int data) :
-			data(data) {
-	}
-    void add(vector<int> values, vector<char> direction) {
+    void add(vector<T> values, vector<char> direction) {
 		assert(values.size() == direction.size());
 		BinaryTree* current = this;
 		// iterate on the path, create all necessary nodes
@@ -48,9 +48,37 @@ class BinaryTree {
 			res = max(res, right->tree_max());
 		return res;
 	}
-     
+    BinaryTree(int data) :
+			data(data) {
+	}
+	BinaryTree(string str) {
+		int total_nodes = -1;
+		this->data = str[str.size()-1]; // root
+		vector<char> nodes;
+		for(int i = 1; i<str.size() ; i++){
+			nodes.push_back(str[i]);
+			total_nodes+=1;
+		}
+		reverse(nodes.begin() , nodes.end());
+		bool flag = false;
+		int counter = 0;
+		while(total_nodes--){
+			if(!flag){
+				vector<char> a(1);
+				a[counter] = nodes[counter];
+				add(a , {'L'});
+				counter++;
+			}else {
+				vector<char> a(1);
+				a[counter] = nodes[counter];
+				add(a , {'R'});
+				counter++;
+				
+			}
+		}
+	}
 };
 int main () {
-    BinaryTree tree(1);
-
+    BinaryTree<string> tree("23+4*");
+	cout << "\n\n!! NO RTE !!\n\n";
 }

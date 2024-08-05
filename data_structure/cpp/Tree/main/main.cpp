@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <stack>
 #include <math.h>
 using namespace std;
 template <typename T>
@@ -42,6 +43,13 @@ class BinaryTree final {
         int right_ = 1+tree_height(cur->right);
         return max(left_ , right_);
     }
+    int tree_diametre (Node *cur) {
+     if(!cur)
+            return 0;
+        int left_ = 1+tree_height(cur->left);
+        int right_ = 1+tree_height(cur->right);
+        return left_+right_;
+    }
     int count_all_node (Node * cur) {
             if(!cur)
                 return 0;
@@ -78,6 +86,34 @@ class BinaryTree final {
         bool left = is_prefect(highet , cur->left);
         bool right = is_prefect(highet, cur->left);
         return left && right;
+    }
+    void print_in_order_iterative (Node * cur) {
+        stack<Node*> stk;
+        while(true){
+            if(cur !=nullptr){
+            stk.push(cur);
+            cur = cur->left;
+            }else {
+                if(stk.empty()) break;
+                cout <<stk.top()->data<<" ";
+                cur = stk.top()->right;
+                stk.pop();
+            }
+        }
+    }
+    void traverse_left_boundry (Node * cur) {
+        if(!cur) return;
+        cout << cur->data << " ";
+        traverse_left_boundry(cur->left);
+
+    }
+    int sol = 0;
+    int b_tree_diamter (Node * cur) {
+        if(!cur) return -1;
+        int left = b_tree_diamter(cur->left);
+        int right = b_tree_diamter(cur->right);
+        sol = max(sol , 2+left+right);
+        return 1 + max(left , right);
     }
     public: // ------------------------------------->>>>>>> PUBLIC <<<<<<-----------------------------------
     void print_in_order () {
@@ -127,7 +163,7 @@ class BinaryTree final {
         return this->tree_max(this->root);
     }
     ~BinaryTree(){
-        destoryBtree(root);
+        destoryBtree(this->root);
     }
     void bulid_fast_tree (){
         root->data = 2;
@@ -137,6 +173,15 @@ class BinaryTree final {
         temp = temp->right;
         temp->left = new Node(7);
         temp->right = new Node(8);
+    }
+    void bulid_fast_tree_v2 (){
+    root->data = 1;
+    root->left = new Node(2);
+    root->right = new Node(3);
+    Node * temp = root;
+    temp = temp->right;
+    temp->left = new Node(4);
+    temp->right = new Node(5);
     }
     int tree_height () {
         return tree_height(this->root) -1 ;
@@ -158,7 +203,19 @@ class BinaryTree final {
     bool is_prefect () {
         return this->is_prefect((int)this->tree_height(this->root),this->root);
     }
-
+    void print_in_order_iterative () {
+        print_in_order_iterative(this->root);
+    }
+    void traverse_left_boundry(){
+        this->traverse_left_boundry(this->root);
+    }
+    int tree_diametre () {
+        return this->tree_diametre(this->root);
+    }
+    int b_tree_diamter () {
+        this->b_tree_diamter(this->root);
+        return sol;
+    }
 };
 
 int main(){
@@ -167,9 +224,11 @@ int main(){
     // tree.add({2,4,8},{'L','L','R'});
     // tree.add({2,5,9},{'L','R','R'});
     // tree.add({3,6,10},{'R','R','L'});
-    tree.bulid_fast_tree();
-    tree.print_post_order();
-
-    cout << "print " << tree.is_prefect();
+    tree.bulid_fast_tree_v2();
+    // tree.print_in_order();
+    // tree.print_in_order_iterative();
+    // cout << "print " << tree.is_prefect();
+    // cout << tree.tree_diametre() -2 ;
+    cout <<"Diamter " <<tree.b_tree_diamter();
     cout << "\n\n!! NO RTE !!\n\n";
 }
