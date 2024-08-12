@@ -247,7 +247,7 @@ public:
         return tree_diameter(root);
     }
 
-    void level_order_traversal()
+    void level_order_traversal_withotlevel() // without level 
     {
         Node * cur = this->root;
         queue<Node*> q;
@@ -262,33 +262,135 @@ public:
             q.pop();
         }
     }
-    void bfs () {
-        queue<Node*> q;
-        int level = 0 ;
-        q.push(this->root);
-        while(!q.empty()){
-            int size = q.size();
-            while(size--){
-                Node *cur = q.front();
-                q.pop();
-                cout << cur->data << ' ';
-                if(cur->left){
-                    q.push(cur->left);
-                }
-                if(cur->right)
-                    q.push(cur->right);
+    void level_order_traversal() // with level 
+    {
+        Node * cur = this->root;
+        queue<pair<Node* , int>> q;
+        q.push(make_pair(cur , 0));
+        while (!q.empty())
+        {
+            int level = q.front().second + 1;
+            if (q.front().first->left){
+                q.push(make_pair(q.front().first->left ,level));
             }
-            level++;
-            cout << endl;
+            if (q.front().first->right){
+                q.push(make_pair(q.front().first->right , level));
+            }
+            cout << q.front().first->data << " " << "level "<<q.front().second << endl;
+            q.pop();
         }
     }
+    void bfs () { 
+       queue<Node*> q;
+       int level = 0; 
+       q.push(this->root);
+       while(!q.empty()){
+        int size = q.size();
+        while(size--){
+            Node * cur = q.front();
+            q.pop();
+            cout << cur->data << " ";
+            if(cur->left){
+                q.push(cur->left);
+            }
+            if(cur->right){
+                q.push(cur->right);
+            }
+        }
+        cout << " level " << level;
+        level++;
+        cout << endl;
+       }
+    }
+    void Level_Order_Spiral () {
+        queue<Node*> q;
+        int level = 0;
+        q.push(this->root);
+        while(!q.empty()){ //:- LAZY CODE :0
+          int siz = q.size();
+            while(siz--){
+                if(level%2 == 0){ 
+                    if(q.front()->right){
+                        q.push(q.front()->right);
+                    }
+                    if(q.front()->left){
+                        q.push(q.front()->left);
+                    }
+                    cout << q.front()->data << " ";
+                    q.pop();
+                }else {
+                    if(q.front()->left){
+                        q.push(q.front()->left);
+                    }
+                    if(q.front()->right){
+                        q.push(q.front()->right);
+                    }
+                    cout << q.front()->data << " ";
+                    q.pop();
+                }
+               
+            } 
+          level++;
+          cout << endl; 
+        }
+    }
+
+     bool isCompleteTree(Node* root) {
+        queue<Node*> q;
+        q.push(root);
+        string x = "";
+        while(!q.empty()){
+            int sizeOfQueue = q.size();
+            while(sizeOfQueue--){
+                if(q.front()->left){
+                    q.push(q.front()->left);
+                    if(!x.empty()&&x[x.size()-1] != 'R'){
+                        return false;
+                    }
+                    x+="L";
+                }
+                if(!q.front()->right){
+                    x+='x';
+                }
+                if(q.front()->right){
+                    q.push(q.front()->right);
+                     if(!x.empty()&&x[x.size()-1] != 'L'){
+                        return false;
+                    }
+                    if(x.empty()) return false;
+                     x+="R";
+                }
+                q.pop();
+            }
+        }
+        return true;
+    }
+    void print_level (Node * cur , int level) {
+        if(level == 0){
+            cout << cur->data << " ";
+        }else {
+            if(cur->left)
+                print_level(cur->left , level-1);
+            if(cur->right)
+                print_level(cur->right , level-1);
+        }
+    }
+    void RecursiveLevelOrderTraversal () {
+        int tree_height = this->tree_height();
+        for(int level = 0 ; level <= tree_height ; ++level){
+            print_level(this->root,level);
+        }
+    }
+
 };
+
+
 
 int main()
 {
     BinaryTree<int> tree(1); // Root
     tree.build_fast_tree_v2();
-    tree.level_order_traversal();
+    tree.RecursiveLevelOrderTraversal();
     cout << "\n\n!! NO RTE !!\n\n";
     return 0;
 }
