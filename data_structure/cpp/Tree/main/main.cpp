@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <iostream>
 #include <vector>
+#include <deque>
 #include <algorithm>
 #include <stack>
 #include <queue>
@@ -381,16 +382,21 @@ public:
             print_level(this->root,level);
         }
     }
-
+    // BinaryTree(deque<int>&preoreder , deque<int>&inoreder){
+        
+    // }
 };
 
 
 
 int main()
 {
-    BinaryTree<int> tree(1); // Root
-    tree.build_fast_tree_v2();
-    tree.RecursiveLevelOrderTraversal();
+    // deque<int> preoreder = {1 ,2 ,4, 7, 8 ,5 ,9 ,3 ,6 ,10};
+    // deque<int> inoredre = {7, 4 ,8 ,2 ,5 ,9 ,1 ,3 ,10, 6};
+    // BinaryTree<int> tree(preoreder , inoredre); // Root
+    BinaryTree tree(1);
+    tree.build_fast_tree();
+    tree.print_in_order();
     cout << "\n\n!! NO RTE !!\n\n";
     return 0;
 }
