@@ -14,7 +14,7 @@ class Tree {
 
 
 
-    void insertNode (Node *cur , int value) {
+    void insertNode (Node *cur , int &value) {
         
         if(value < cur->data){
             if(cur->left){
